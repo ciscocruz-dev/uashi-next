@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
-import Loader from "@/components/Loader";   // ← adicionar
+import Loader from "@/components/Loader";
+import { GoogleTagScript, GoogleTagNoScript } from "@/components/GoogleTag";  // ← adicionar
 import "./globals.css";
 
 /* Titan One embutida no projeto em vez de baixada do Google.
@@ -42,8 +43,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={titanOne.variable}>
         <body>
+        <GoogleTagNoScript />
         <Loader />
         {children}
+        <GoogleTagScript />
       </body>
     </html>
   );

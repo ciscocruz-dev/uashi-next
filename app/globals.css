@@ -2277,3 +2277,28 @@ html{
 @media (hover: none){
   .lavagem-sujeira{ cursor: grab; }
 }
+
+/* ---- cadastro: honeypot e mensagem de erro ---- */
+/* fora da tela, e não display:none — robô ignora campo escondido por
+   display, e a ideia é justamente que ele preencha */
+.cadastro-honeypot{
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.cadastro-erro{
+  margin: 0 0 14px;
+  padding: 11px 14px;
+  border-radius: 9px;
+  background: rgba(255, 30, 0, 0.14);
+  border: 1px solid rgba(255, 30, 0, 0.4);
+  font-size: 0.87rem;
+  color: #FFD9D2;
+}
+
+.cadastro-form input[aria-invalid="true"]{
+  border-color: var(--vermelho-icone);
+}
