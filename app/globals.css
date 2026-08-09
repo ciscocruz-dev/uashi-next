@@ -1,0 +1,2279 @@
+/* =========================================================
+   UASHI — Landing Page
+   css/style.css
+
+   Cores extraídas do design enviado pelo cliente.
+   ========================================================= */
+
+:root{
+  /* ---- cores da marca ---- */
+  --azul-pagina:   #000E66;  /* fundo geral do site */
+  --azul-header:   #000B4D;  /* pílula do header e do badge */
+  --azul-marca:    #0550AA;
+  --azul-profundo: #033A7D;
+  --navy:          #031025;
+  --branco:        #FFFFFF;
+  --creme:         #FBF9ED;  /* faixa diagonal */
+  --texto-suave:   #999FC1;  /* parágrafos sobre o azul */
+  --vermelho:      #F3201C;  /* botão "Baixar App" */
+  --vermelho-hover:#D3140F;
+  --vermelho-faixa:#F6201B;  /* faixa diagonal */
+  --vermelho-icone:#FF1E00;  /* ícone de brilho dos chips */
+  --ambar:         #FCB406;  /* destaque / link ativo */
+
+  --borda-clara: rgba(255, 255, 255, 0.10);
+  --borda-botao: rgba(255, 255, 255, 0.25);
+
+  /* ---- tipografia ----
+     Títulos: Titan One (Google Fonts).
+     Corpo: SF Pro via pilha de fonte do sistema. Em aparelhos Apple
+     isso renderiza a SF Pro de verdade; nos outros, cai no
+     equivalente mais próximo do sistema. Ver nota no README sobre
+     licença da SF Pro. */
+  /* A Titan One vem do next/font (auto-hospedada, sem requisição
+     externa e sem salto de layout). A variável é definida no
+     app/layout.js. */
+  --font-titulo: var(--fonte-titan), "Arial Black", sans-serif;
+  --font-texto:  -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+                 "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:   "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  /* ---- medidas ---- */
+  --largura-max: 1240px;
+  --altura-header: 76px;      /* altura da pílula */
+  --topo-header: 12px;        /* respiro entre o topo da tela e a pílula */
+  --raio-pill: 999px;
+}
+
+*{ box-sizing: border-box; }
+
+html{
+  scroll-behavior: smooth;
+  /* garante que âncoras não fiquem escondidas atrás do header fixo */
+  scroll-padding-top: calc(var(--altura-header) + var(--topo-header) + 16px);
+}
+
+body{
+  margin: 0;
+  background: var(--azul-pagina);
+  color: var(--branco);
+  font-family: var(--font-texto);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3{
+  font-family: var(--font-titulo);
+  font-weight: 400;      /* Titan One tem só um peso */
+  text-transform: uppercase;
+  line-height: 1.02;
+  margin: 0;
+  color: var(--branco);
+}
+
+img{ max-width: 100%; display: block; }
+a{ color: inherit; text-decoration: none; }
+ul{ margin: 0; padding: 0; list-style: none; }
+button{ font-family: inherit; cursor: pointer; }
+
+.container{
+  width: 100%;
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* acessibilidade: link para pular direto ao conteúdo */
+.pular-conteudo{
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--creme);
+  color: var(--navy);
+  padding: 12px 18px;
+  border-radius: 8px;
+  z-index: 2000;
+  font-weight: 700;
+}
+.pular-conteudo:focus{ left: 16px; top: 16px; }
+
+/* =========================================================
+   HEADER — pílula fixa no topo
+   ========================================================= */
+.cabecalho{
+  position: fixed;
+  top: var(--topo-header);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 20px;
+}
+
+.cabecalho-pill{
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  height: var(--altura-header);
+  background: var(--azul-header);
+  border: 1px solid var(--borda-clara);
+  border-radius: var(--raio-pill);
+  padding: 0 14px 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  transition: box-shadow .3s ease, background .3s ease;
+}
+/* ao rolar, ganha sombra para se separar do conteúdo */
+.cabecalho.rolando .cabecalho-pill{
+  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.65);
+}
+
+/* ---- logo ---- */
+.cabecalho-logo{
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.cabecalho-logo img{
+  height: 38px;
+  width: auto;
+}
+
+/* ---- navegação (desktop) ---- */
+.cabecalho-nav{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 0 auto;
+}
+.cabecalho-nav a{
+  position: relative;
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 6px 0;
+  transition: color .2s ease;
+  white-space: nowrap;
+}
+.cabecalho-nav a:hover{ color: #FFFFFF; }
+
+/* estado ativo: cor âmbar + ponto abaixo */
+.cabecalho-nav a.ativo{
+  color: var(--branco);
+  font-weight: 500;
+}
+
+
+/* ---- botão Baixar App ---- */
+.btn-app{
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 26px;
+  border-radius: var(--raio-pill);
+  background: var(--vermelho);
+  color: #FFFFFF;
+  font-size: 0.94rem;
+  font-weight: 700;
+  border: none;
+  transition: background .2s ease, transform .2s ease;
+}
+.btn-app:hover{ background: var(--vermelho-hover); }
+.btn-app:active{ transform: translateY(1px); }
+
+/* ---- botão hambúrguer (só no mobile) ---- */
+.btn-menu{
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--borda-clara);
+  background: transparent;
+  color: #FFFFFF;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+.btn-menu:hover{ background: rgba(255, 255, 255, 0.06); }
+.btn-menu .icone-fechar{ display: none; }
+.btn-menu[aria-expanded="true"] .icone-abrir{ display: none; }
+.btn-menu[aria-expanded="true"] .icone-fechar{ display: block; }
+
+/* =========================================================
+   MENU MOBILE (painel em tela cheia)
+   ========================================================= */
+.menu-mobile{
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--azul-header);
+  padding: calc(var(--altura-header) + var(--topo-header) + 32px) 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity .28s ease, transform .28s ease, visibility .28s;
+  overflow-y: auto;
+}
+.menu-mobile.aberto{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.menu-mobile a{
+  font-family: var(--font-titulo);
+  font-size: 1.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--borda-clara);
+}
+.menu-mobile a.ativo{ color: var(--ambar); }
+.menu-mobile .btn-app{
+  margin-top: 28px;
+  width: 100%;
+  height: 54px;
+  font-size: 1rem;
+}
+
+/* trava a rolagem do fundo enquanto o menu está aberto */
+body.menu-travado{ overflow: hidden; }
+
+/* =========================================================
+   RESPONSIVO DO HEADER
+   ========================================================= */
+
+/* telas médias: reduz o espaçamento entre links antes de esconder */
+@media (max-width: 1080px){
+  .cabecalho-nav{ gap: 20px; }
+  .cabecalho-nav a{ font-size: 0.88rem; }
+  .cabecalho-pill{ padding-left: 22px; }
+}
+
+/* mobile: só logo + hambúrguer, como pedido */
+@media (max-width: 900px){
+  :root{
+    --altura-header: 66px;
+    --topo-header: 10px;
+  }
+  .cabecalho-nav{ display: none; }
+  .cabecalho-pill > .btn-app{ display: none; }
+  .btn-menu{ display: flex; }
+  .cabecalho-pill{
+    padding: 0 10px 0 18px;
+  }
+  .cabecalho-logo img{ height: 32px; }
+}
+
+@media (max-width: 380px){
+  .cabecalho-logo img{ height: 28px; }
+  .menu-mobile a{ font-size: 1.45rem; }
+}
+
+/* respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  .menu-mobile{ transition: none; }
+}
+
+/* =========================================================
+   HERO / INÍCIO
+   ========================================================= */
+.hero{
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(var(--altura-header) + var(--topo-header) + 80px);
+  /* reserva a altura da faixa diagonal (asset 1440x174 => 12.08% da largura)
+     para que o texto nunca fique por baixo dela */
+  padding-bottom: calc(12.1vw + 12px);
+}
+ 
+.hero-grid{
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+ 
+/* ---- badge "A partir de R$34,90" ---- */
+.hero-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--azul-header);
+  border: 1px solid var(--borda-clara);
+  border-radius: var(--raio-pill);
+  padding: 9px 18px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 24px;
+}
+.hero-badge strong{
+  color: var(--ambar);
+  font-weight: 700;
+}
+ 
+/* ---- título ----
+   Tamanho calibrado sobre o design: ~68px numa tela de 1440. */
+.hero-titulo{
+  font-size: clamp(2.5rem, 4.75vw, 4.25rem);
+  letter-spacing: -0.005em;
+}
+.hero-titulo .destaque{ color: var(--ambar); }
+ 
+/* brilho (estrela) entre "LIMPO" e "EM" */
+.hero-brilho{
+  display: inline-block;
+  width: 0.42em;
+  position: relative;
+  vertical-align: baseline;
+}
+.hero-brilho img{
+  position: absolute;
+  bottom: 0.06em;
+  left: -0.08em;
+  width: 0.58em;
+  height: auto;
+  max-width: none;
+}
+ 
+/* ---- parágrafo ---- */
+.hero-descricao{
+  margin: 22px 0 0;
+  max-width: 400px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+ 
+/* ---- botão "Encontrar loja" ---- */
+.btn-contorno{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  height: 54px;
+  padding: 0 30px;
+  border-radius: var(--raio-pill);
+  border: 1px solid var(--borda-botao);
+  background: transparent;
+  color: var(--branco);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background .22s ease, border-color .22s ease, transform .22s ease;
+}
+.btn-contorno:hover{
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.btn-contorno:active{ transform: translateY(1px); }
+.btn-contorno svg{ flex-shrink: 0; }
+ 
+/* ---- celular ----
+   Escala calibrada sobre o design: o <img> ocupa ~43% da largura
+   da tela, o que equivale a preencher a coluna da direita. */
+.hero-visual{
+  position: relative;
+  z-index: 3;                  /* fica na frente da faixa diagonal */
+  display: flex;
+  justify-content: center;
+  /* precisa de largura explícita: com o grid em uma coluna e
+     justify-items: center, este item encolhe para o conteúdo, e o
+     quadro da foto (um div com width: 100%) não teria referência
+     para resolver a largura, ficando com zero */
+  width: 100%;
+  /* a margem negativa encurta a altura que o celular ocupa no grid e,
+     ao mesmo tempo, deixa ele "descer" por cima da faixa diagonal,
+     como no design. Em vw para acompanhar a escala da tela. */
+  margin-bottom: -7vw;
+}
+/* quadro da foto do carro com espuma */
+.hero-foto{
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  overflow: hidden;
+  /* cor de espera: se a foto demorar ou faltar, o quadro não fica
+     branco piscando sobre o azul */
+  background: var(--azul-header);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.6);
+  will-change: transform;
+}
+.hero-foto img{
+  object-fit: cover;
+}
+ 
+/* ---- faixa diagonal no rodapé do hero ---- */
+.hero-faixa{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+ 
+/* =========================================================
+   RESPONSIVO DO HERO
+   ========================================================= */
+@media (max-width: 980px){
+  .hero-grid{
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+    justify-items: center;
+  }
+  .hero-descricao{ margin-left: auto; margin-right: auto; }
+  .hero-visual{ margin-bottom: -4vw; }
+  .hero-foto{ max-width: 520px; }
+}
+ 
+@media (max-width: 900px){
+  .hero{ padding-top: calc(var(--altura-header) + var(--topo-header) + 32px); }
+}
+ 
+@media (max-width: 520px){
+  .hero-badge{ font-size: 0.72rem; padding: 8px 15px; }
+  .hero-descricao{ font-size: 0.96rem; }
+  .btn-contorno{ height: 50px; padding: 0 24px; font-size: 0.95rem; }
+  .hero-foto{ max-width: none; }
+  .hero-visual{ margin-bottom: -8vw; }
+  /* em telas estreitas a faixa fica fina demais só escalando */
+  .hero{ padding-bottom: 84px; }
+  .hero-faixa{ height: 58px; object-fit: cover; object-position: left center; }
+}
+ 
+@media (prefers-reduced-motion: reduce){
+  .hero-foto{ transform: none !important; }
+}
+/* =========================================================
+   CHIPS — esteiras infinitas
+   ========================================================= */
+.chips{
+  position: relative;
+  padding: 54px 0 60px;
+  overflow: hidden;
+}
+
+.chips-linha{
+  overflow: hidden;
+  /* margem negativa nas laterais: os chips entram e saem da tela
+     sem "bater" na borda do container */
+  width: 100%;
+}
+.chips-linha + .chips-linha{ margin-top: 24px; }
+
+.chips-trilha{
+  display: flex;
+  align-items: center;
+  /* espaçamento uniforme: o mesmo valor vale entre chips da
+     mesma linha e entre a linha de cima e a de baixo */
+  gap: 24px;
+  width: max-content;
+  will-change: transform;
+}
+
+.chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  background: var(--branco);
+  color: var(--azul-pagina);
+  border-radius: var(--raio-pill);
+  /* padding calibrado sobre o design: com fonte 24px resulta em
+     chip de ~69px de altura e proporção 2.2:1 no chip mais curto,
+     igual ao arquivo de referência */
+  padding: 20px;
+  /* especificado pelo cliente: 24px. Reduz em telas pequenas
+     para os chips não ficarem maiores que a tela. */
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.chip-ico{
+  flex-shrink: 0;
+  /* acompanha o tamanho do texto: 24px quando a fonte está em 24px */
+  width: 1em;
+  height: 1.23em;   /* proporção do ícone original (26x32) */
+  color: var(--vermelho-icone);
+  fill: currentColor;
+}
+
+/* ---- sem animação: quem prefere menos movimento vê os chips
+        parados e quebrando em linhas, sem nada cortado ---- */
+.chips.sem-animacao .chips-linha{ overflow: visible; }
+.chips.sem-animacao .chips-trilha{
+  flex-wrap: wrap;
+  width: auto;
+  justify-content: center;
+  transform: none !important;
+  padding: 0 20px;
+}
+
+@media (max-width: 900px){
+  .chips{ padding: 40px 0 44px; }
+  .chip{ padding: 15px; gap: 8px; }
+}
+
+@media (max-width: 520px){
+  .chip{ padding: 12px; font-size: 0.95rem; }
+}
+/* =========================================================
+   COMO FUNCIONA
+   ========================================================= */
+.processo{
+  padding: 80px 0 96px;
+}
+
+.processo-topo{
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+/* etiqueta reaproveitável ("Simples assim") */
+.etiqueta{
+  display: inline-block;
+  background: var(--azul-header);
+  border: 1px solid var(--borda-clara);
+  border-radius: var(--raio-pill);
+  padding: 7px 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin-bottom: 18px;
+  width: fit-content;
+}
+
+.processo-titulo{
+  font-size: clamp(2rem, 4.2vw, 3.75rem);
+}
+
+/* ---------------------------------------------------------
+   Palco: a pista fica atrás, os cards na frente
+   --------------------------------------------------------- */
+.processo-palco{
+  position: relative;
+}
+
+/* ---- pista ----
+   Medida do design: ocupa 69% da altura dos cards, centralizada,
+   com bordas âmbar de ~11% e miolo preto. */
+.pista{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 15.5%;
+  height: 69%;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(
+    to bottom,
+    var(--ambar) 0 11%,
+    #000000 11% 89%,
+    var(--ambar) 89% 100%
+  );
+}
+
+/* faixa tracejada no meio da pista, para dar sensação de movimento */
+.pista::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.22) 0 26px,
+    transparent 26px 60px
+  );
+}
+
+/* o trilho tem a largura da pista: animar o transform dele em %
+   move o carro exatamente de ponta a ponta */
+.pista-veiculo{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  animation: carroNaPista 16s linear infinite;
+}
+.pista-carro{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  /* scaleX(-1) espelha o carro: o desenho aponta para a esquerda,
+     e sem isso ele atravessa a pista de marcha à ré */
+  transform: translateY(-50%) scaleX(-1);
+  /* menor que a pista de propósito: no vão de 40px entre os cards,
+     este tamanho deixa ~40% do carro visível de uma vez, o que é
+     suficiente para ele ser reconhecido de relance (testado contra
+     34% e 15%, que ficavam respectivamente irreconhecível e pequeno) */
+  height: 22%;
+  width: auto;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+
+/* atravessa a pista devagar; ao chegar no fim desaparece e
+   reaparece no início, em loop infinito */
+@keyframes carroNaPista{
+  0%   { transform: translateX(-9%);  opacity: 0; }
+  5%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(104%); opacity: 0; }
+}
+
+/* pausa quando a seção não está na tela (classe posta pelo core.js) */
+.processo-palco.pausado .pista-veiculo{ animation-play-state: paused; }
+
+/* ---- cards ---- */
+.processo-cards{
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.passo{
+  background: var(--branco);
+  border-radius: 20px;
+  padding: 30px 28px 32px;
+  transition: transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s ease;
+}
+
+.passo-icone{
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--vermelho-icone);
+  color: var(--branco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 26px;
+  transition: transform .3s cubic-bezier(.2,.7,.3,1);
+}
+
+.passo-numero{
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #037BC9;
+  margin-bottom: 8px;
+}
+
+.passo-titulo{
+  color: var(--azul-header);
+  font-size: 1.35rem;
+  margin-bottom: 12px;
+}
+
+.passo-texto{
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #40497A;
+}
+
+/* ---- hover ---- */
+.passo:hover{
+  transform: translateY(-10px);
+  box-shadow: 0 22px 40px -18px rgba(0, 0, 0, 0.55);
+}
+.passo:hover .passo-icone{
+  transform: scale(1.1) rotate(-8deg);
+}
+
+/* =========================================================
+   RESPONSIVO — COMO FUNCIONA
+   ========================================================= */
+@media (max-width: 1080px){
+  .processo-cards{ gap: 24px; }
+  .passo{ padding: 26px 22px 28px; }
+}
+
+/* abaixo disto os cards deixam de ficar em uma única fileira,
+   então a pista horizontal perde sentido e sai de cena */
+@media (max-width: 900px){
+  .processo{ padding: 60px 0 70px; }
+  .processo-topo{ margin-bottom: 40px; }
+  .processo-cards{ grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .pista{ display: none; }
+}
+
+@media (max-width: 560px){
+  .processo-cards{ grid-template-columns: 1fr; gap: 16px; }
+  .passo{ padding: 24px 22px 26px; }
+  .passo-icone{ width: 46px; height: 46px; margin-bottom: 20px; }
+  .passo-titulo{ font-size: 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .pista-veiculo{ animation: none; opacity: 1; }
+  .passo:hover{ transform: none; }
+  .passo:hover .passo-icone{ transform: none; }
+}
+
+/* =========================================================
+   TECNOLOGIA QUE PROTEGE (lavagem interativa)
+   ========================================================= */
+.protege{
+  background: var(--branco);
+  padding: 84px 0;
+}
+
+.protege-grid{
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.protege .etiqueta{ margin-bottom: 20px; }
+
+.protege-titulo{
+  color: var(--azul-header);
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+}
+.protege-titulo .destaque-azul{ color: #037BC9; }
+
+.protege-desc{
+  margin: 20px 0 0;
+  max-width: 460px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333C71;
+}
+.protege-desc strong{ color: var(--azul-header); font-weight: 700; }
+
+.protege-lista{
+  margin-top: 26px;
+  display: grid;
+  gap: 14px;
+}
+.protege-lista li{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--azul-header);
+}
+.protege-ico{
+  flex-shrink: 0;
+  width: 15px;
+  height: 18px;
+  color: var(--ambar);
+  fill: currentColor;
+}
+
+/* CTA depois dos bullets. Reaproveita o .local-btn (o botão vermelho
+   da seção "Como chegar"), só acrescentando o respiro pedido. */
+.protege-btn{
+  margin-top: 40px;
+}
+
+/* ---------------------------------------------------------
+   Palco da lavagem
+   --------------------------------------------------------- */
+.lavagem{ outline: none; }
+
+.lavagem-cena{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 320 / 184;      /* proporção da caixa no design */
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--azul-pagina);
+}
+.lavagem:focus-visible .lavagem-cena{
+  box-shadow: 0 0 0 3px var(--ambar);
+}
+
+/* piso: plano mais claro, levemente inclinado como no design */
+.lavagem-piso{
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: 0;
+  height: 46%;
+  background: #192675;
+  transform: rotate(-1.6deg);
+  transform-origin: left bottom;
+}
+
+/* bloco que se move quando o carro arranca */
+.lavagem-movel{
+  position: absolute;
+  inset: 0;
+  transition: none;
+}
+
+.lavagem-carro,
+.lavagem-sujeira{
+  position: absolute;
+  left: 6%;
+  top: 14%;
+  width: 88%;
+  height: 76%;
+}
+.lavagem-carro{ display: block; }
+.lavagem-sujeira{
+  cursor: grab;
+  /* pan-y: no celular o arrasto lateral lava e o vertical
+     continua rolando a página */
+  touch-action: pan-y;
+  transition: opacity .5s ease;
+}
+
+/* brilho diagonal ao ficar limpo */
+.lavagem-brilho{
+  position: absolute;
+  top: -25%;
+  left: -55%;
+  width: 42%;
+  height: 150%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.8), transparent);
+  transform: skewX(-16deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* estrelinhas */
+.lavagem-estrelas{ position: absolute; inset: 0; pointer-events: none; }
+.lavagem-estrelas span{
+  position: absolute;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: scale(.4);
+  transition: opacity .4s ease, transform .4s ease;
+  text-shadow: 0 0 12px rgba(255,255,255,.9);
+}
+.lavagem-estrelas span:nth-child(1){ top: 16%; left: 24%; font-size: 1.5rem; }
+.lavagem-estrelas span:nth-child(2){ top: 9%;  left: 56%; font-size: 1.1rem; }
+.lavagem-estrelas span:nth-child(3){ top: 30%; left: 76%; font-size: 1.3rem; }
+
+/* fumaça da arrancada, sai da roda de trás */
+.lavagem-fumaca{
+  position: absolute;
+  left: 16%;
+  bottom: 16%;
+  pointer-events: none;
+}
+.lavagem-fumaca span{
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  opacity: 0;
+}
+.lavagem-fumaca span:nth-child(1){ left: 0;    bottom: 0; }
+.lavagem-fumaca span:nth-child(2){ left: 18px; bottom: 6px; }
+.lavagem-fumaca span:nth-child(3){ left: 36px; bottom: -2px; }
+.lavagem-fumaca span:nth-child(4){ left: 54px; bottom: 8px; }
+
+.lavagem-dica{
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8A90B4;
+  transition: opacity .35s ease;
+}
+.dica-toque{ display: none; }
+@media (hover: none){
+  .dica-mouse{ display: none; }
+  .dica-toque{ display: inline; }
+}
+.lavagem.lavando .lavagem-dica{ opacity: 0; }
+
+/* ---- estado LIMPO: sujeira sai, brilho passa, estrelas aparecem ---- */
+.lavagem.limpo .lavagem-sujeira{ opacity: 0; pointer-events: none; }
+.lavagem.limpo .lavagem-carro{ filter: brightness(1.08) drop-shadow(0 0 18px rgba(255,255,255,.35)); }
+.lavagem.limpo .lavagem-brilho{ animation: brilhoPassando .85s ease-out forwards; }
+.lavagem.limpo .lavagem-estrelas span{ opacity: 1; transform: scale(1); }
+.lavagem.limpo .lavagem-estrelas span:nth-child(2){ transition-delay: .1s; }
+.lavagem.limpo .lavagem-estrelas span:nth-child(3){ transition-delay: .2s; }
+
+@keyframes brilhoPassando{
+  0%   { opacity: 0;  left: -55%; }
+  30%  { opacity: .95; }
+  100% { opacity: 0;  left: 115%; }
+}
+
+/* ---- estado SAINDO: acelera, levanta a frente e sai do quadro ---- */
+.lavagem.saindo .lavagem-movel{
+  animation: carroArrancando 1.1s cubic-bezier(.5,0,.85,.3) forwards;
+}
+@keyframes carroArrancando{
+  0%   { transform: translateX(0) rotate(0deg); }
+  14%  { transform: translateX(-8px) rotate(-1.2deg); }   /* recua e agacha */
+  100% { transform: translateX(125%) rotate(1deg); }
+}
+.lavagem.saindo .lavagem-fumaca span{
+  animation: fumacaSaindo .85s ease-out forwards;
+}
+.lavagem.saindo .lavagem-fumaca span:nth-child(2){ animation-delay: .07s; }
+.lavagem.saindo .lavagem-fumaca span:nth-child(3){ animation-delay: .14s; }
+.lavagem.saindo .lavagem-fumaca span:nth-child(4){ animation-delay: .2s; }
+@keyframes fumacaSaindo{
+  0%   { opacity: 0;   transform: scale(.4) translateX(0); }
+  25%  { opacity: .75; }
+  100% { opacity: 0;   transform: scale(2.6) translateX(-40px); }
+}
+.lavagem.saindo .lavagem-estrelas span{ opacity: 0; }
+
+/* ---- estado VOLTANDO: carro sujo reaparece ---- */
+.lavagem.voltando .lavagem-movel{
+  animation: carroVoltando .5s ease-out forwards;
+}
+@keyframes carroVoltando{
+  0%   { transform: translateX(-14%); opacity: 0; }
+  100% { transform: translateX(0);    opacity: 1; }
+}
+
+/* =========================================================
+   RESPONSIVO — TECNOLOGIA QUE PROTEGE
+   ========================================================= */
+@media (max-width: 900px){
+  .protege{ padding: 60px 0; }
+  .protege-grid{ grid-template-columns: 1fr; gap: 36px; }
+  .protege-desc{ max-width: none; }
+}
+
+@media (max-width: 520px){
+  .protege-lista li{ font-size: 0.9rem; }
+  .lavagem-fumaca span{ width: 14px; height: 14px; }
+  .lavagem-estrelas span{ font-size: 1.1rem !important; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .lavagem.limpo .lavagem-brilho,
+  .lavagem.saindo .lavagem-movel,
+  .lavagem.saindo .lavagem-fumaca span,
+  .lavagem.voltando .lavagem-movel{ animation: none; }
+}
+
+@keyframes carroVoltando{
+  0%   { transform: translateX(-14%); opacity: 0; }
+  100% { transform: translateX(0);    opacity: 1; }
+}
+
+/* durante a saída, a sujeira fica fora de cena de qualquer forma */
+.lavagem.saindo .lavagem-sujeira,
+.lavagem.voltando .lavagem-sujeira{
+  opacity: 0;
+}
+/* =========================================================
+   BENEFÍCIOS — cards que empilham na rolagem
+   ========================================================= */
+.beneficios{
+  padding: 80px 0 0;
+}
+
+.beneficios-topo{
+  text-align: center;
+  margin-bottom: 54px;
+}
+.beneficios-titulo{
+  font-size: clamp(1.7rem, 3.6vw, 3.1rem);
+}
+.beneficios-titulo .destaque-ambar{ color: var(--ambar); }
+
+/* O espaço de rolagem entre um card e outro vai como margin-TOP do card
+   seguinte, e não como margin-bottom do anterior. Motivo: a margem
+   inferior de um elemento sticky encolhe o retângulo em que ele pode
+   ficar preso, e isso fazia os primeiros cards destravarem antes de o
+   último chegar (só dois ficavam empilhados). */
+.beneficios-pilha{ }
+
+.beneficio{
+  /* cada card trava um pouco mais abaixo que o anterior, então
+     sobra uma faixa do card de baixo aparecendo */
+  position: sticky;
+  top: calc(var(--altura-header) + var(--topo-header) + 46px + var(--i) * 26px);
+
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  background: var(--branco);
+  border-radius: 18px;
+  padding: 32px 36px 34px;
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.55);
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 18px 20px;
+  align-items: start;
+}
+
+.beneficio-icone {
+  grid-column: 1;
+  align-self: start;
+}
+
+.beneficio-conteudo {
+  grid-column: 2;
+  display: grid;
+  gap: 8px;
+}
+.beneficio + .beneficio{ margin-top: 56vh; }
+
+/* espaçador final: precisa ser elemento de verdade (e não padding da
+   pilha) para entrar na caixa de conteúdo e assim esticar o alcance
+   do sticky, mantendo os três cards empilhados por mais tempo */
+.beneficios-fim{
+  height: 34vh;
+}
+
+.beneficio-icone{
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--vermelho-icone);
+  color: var(--branco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  align-self: start;
+}
+
+.beneficio-titulo{
+  color: var(--azul-header);
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  margin: 0;
+  line-height: 1.2;
+}
+.beneficio-texto{
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #4C5582;
+}
+
+/* estado inicial só quando o JS assume o controle: sem JS os
+   cards ficam visíveis normalmente */
+.beneficios-pilha.com-animacao .beneficio{
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* =========================================================
+   RESPONSIVO — BENEFÍCIOS
+   ========================================================= */
+@media (max-width: 900px){
+  .beneficios{ padding-top: 60px; }
+  .beneficios-topo{ margin-bottom: 36px; }
+  .beneficio{
+    top: calc(var(--altura-header) + var(--topo-header) + 28px + var(--i) * 18px);
+    padding: 26px 24px 28px;
+  }
+  .beneficio + .beneficio{ margin-top: 48vh; }
+  .beneficios-fim{ height: 26vh; }
+}
+
+@media (max-width: 520px){
+  .beneficio-icone{ width: 42px; height: 42px; margin-bottom: 18px; }
+  .beneficio-titulo{ font-size: 1.15rem; }
+  .beneficio-texto{ font-size: 0.9rem; }
+}
+
+/* quem prefere menos movimento vê os cards parados, empilhados
+   como uma lista comum */
+@media (prefers-reduced-motion: reduce){
+  .beneficio{
+    position: static;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .beneficio + .beneficio{ margin-top: 20px; }
+  .beneficios-fim{ display: none; }
+}
+/* =========================================================
+   PREÇOS
+   ========================================================= */
+.precos{
+  padding: 80px 0 90px;
+}
+
+.precos-topo{
+  text-align: center;
+  margin-bottom: 46px;
+}
+.precos-titulo{
+  font-size: clamp(1.7rem, 3.6vw, 3.1rem);
+}
+.precos-titulo .destaque-ambar{ color: var(--ambar); }
+.precos-sub{
+  margin: 16px 0 0;
+  font-size: 0.98rem;
+  color: var(--texto-suave);
+}
+
+/* ---- palco: a faixa da marca passa atrás dos cards ---- */
+.precos-palco{
+  position: relative;
+}
+.precos-faixa{
+  position: absolute;
+  left: 0;
+  bottom: 34%;           /* posição medida no design */
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* ---- grade dos cards ----
+   Alinhados pela base: como cada plano tem uma quantidade
+   diferente de itens, isso produz naturalmente a "escadinha"
+   ascendente do design, sem deslocamento manual. */
+.precos-grid{
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: end;
+  gap: 18px;
+}
+
+.preco-card{
+  position: relative;
+  background: var(--azul-header);
+  border-radius: 16px;
+  padding: 32px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform .32s cubic-bezier(.2,.7,.3,1), box-shadow .32s ease;
+}
+.preco-card.is-destaque{
+  background: var(--branco);
+  padding-top: 38px;
+}
+
+.preco-selo{
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--vermelho);
+  color: var(--branco);
+  border-radius: var(--raio-pill);
+  padding: 5px 14px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.preco-nome{
+  color: var(--vermelho-icone);
+  font-size: 1.16rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.preco-valor{
+  margin: 0 0 26px;
+  text-align: center;
+  color: var(--branco);
+  font-family: var(--font-titulo);
+  line-height: 1;
+}
+.preco-card.is-destaque .preco-valor{ color: var(--azul-header); }
+.preco-valor .moeda{ font-size: 0.9rem; vertical-align: 0.85em; margin-right: 3px; }
+.preco-valor .inteiro{ font-size: 2.9rem; }
+.preco-valor .centavos{ font-size: 0.9rem; vertical-align: 0.85em; }
+
+.preco-itens{
+  display: grid;
+  gap: 13px;
+  margin-bottom: 22px;
+}
+.preco-itens li{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.86);
+}
+.preco-card.is-destaque .preco-itens li{ color: #333C71; }
+.preco-ico{
+  flex-shrink: 0;
+  width: 12px;
+  height: 14px;
+  margin-top: 2px;
+  color: var(--ambar);
+  fill: currentColor;
+}
+
+.preco-tempo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 0 22px;
+  /* empurra o tempo e o botão para a base, alinhando os botões
+     dos quatro cards na mesma linha */
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--vermelho-icone);
+}
+
+.preco-btn{
+  display: block;
+  text-align: center;
+  background: #037AC8;
+  color: var(--branco);
+  border-radius: var(--raio-pill);
+  padding: 15px 16px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  transition: background .22s ease, transform .22s ease;
+}
+.preco-btn:hover{ background: #0264A6; }
+.preco-btn:active{ transform: translateY(1px); }
+
+/* ---- hover do card ---- */
+.preco-card:hover{
+  transform: perspective(1000px) rotateX(3deg) rotateY(-4deg) translateY(-10px);
+  box-shadow: 0 26px 46px -20px rgba(0, 0, 0, 0.6), 0 18px 28px rgba(0, 0, 0, 0.12);
+}
+.preco-card.is-destaque:hover{
+  box-shadow: 0 26px 46px -20px rgba(0, 0, 0, 0.45), 0 18px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* ---- entrada em cascata ao aparecer na tela ----
+   O estado escondido só entra quando o JS assume (classe
+   "animar"), então sem JS os cards já aparecem normalmente. */
+.precos-grid.animar .preco-card{
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1), box-shadow .32s ease;
+  transition-delay: calc(var(--i) * 110ms);
+}
+.precos-grid.animar.visivel .preco-card{
+  opacity: 1;
+  transform: translateY(0);
+}
+/* já visível, o hover volta a responder na hora */
+.precos-grid.animar.visivel .preco-card:hover{
+  transform: perspective(1000px) rotateX(3deg) rotateY(-4deg) translateY(-10px);
+  transition-delay: 0s;
+}
+
+/* ---- serviços adicionais ---- */
+.extras-titulo{
+  margin: 64px 0 22px;
+  text-align: center;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+.extras-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.extra-card{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--azul-header);
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+.extra-ico{
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ambar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.extra-texto{ flex: 1; }
+.extra-texto h4{
+  margin: 0 0 4px;
+  font-family: var(--font-titulo);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 0.92rem;
+  color: var(--ambar);
+}
+.extra-texto p{
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+.extra-valor{
+  margin: 0;
+  flex-shrink: 0;
+  font-family: var(--font-titulo);
+  color: var(--branco);
+  line-height: 1;
+}
+.extra-valor .moeda{ font-size: 0.78rem; vertical-align: 0.8em; margin-right: 2px; }
+.extra-valor .inteiro{ font-size: 1.8rem; }
+.extra-valor .centavos{ font-size: 0.78rem; vertical-align: 0.8em; }
+
+/* =========================================================
+   RESPONSIVO — PREÇOS
+   ========================================================= */
+@media (max-width: 1080px){
+  .precos-grid{ grid-template-columns: repeat(2, 1fr); gap: 22px; align-items: stretch; }
+  .precos-faixa{ bottom: 46%; }
+  .preco-card{ padding: 26px 20px 22px; }
+}
+
+@media (max-width: 760px){
+  .precos{ padding: 60px 0 70px; }
+  .extras-grid{ grid-template-columns: 1fr; }
+  .extras-titulo{ margin-top: 46px; }
+}
+
+@media (max-width: 560px){
+  .precos-grid{ grid-template-columns: 1fr; gap: 18px; }
+  /* com um card por linha a faixa atravessaria só um deles,
+     então ela sai de cena */
+  .precos-faixa{ display: none; }
+  .extra-card{ flex-wrap: wrap; gap: 12px; }
+  .extra-texto{ flex-basis: 100%; order: 2; }
+  .extra-valor{ order: 3; margin-left: auto; }
+}
+
+.cadastro-page{
+  min-height: 100vh;
+  padding: 36px 0 56px;
+  display: flex;
+  align-items: start;
+  background:
+    radial-gradient(circle at top right, rgba(252, 180, 6, 0.14), transparent 32%),
+    linear-gradient(180deg, var(--azul-pagina) 0%, #000B4D 100%);
+}
+
+.cadastro-shell{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cadastro-topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+  margin-bottom: 80px;
+}
+
+.cadastro-logo{
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+.cadastro-voltar{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--branco);
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.cadastro-voltar:hover{
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.cadastro-grid{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.cadastro-copy{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cadastro-titulo{
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.05;
+}
+
+.cadastro-desc{
+  margin: 18px 0 0;
+  max-width: 500px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+
+.cadastro-resumo{
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--borda-clara);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.cadastro-resumo-label{
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.cadastro-resumo strong{
+  font-size: 1rem;
+  color: var(--branco);
+}
+
+.cadastro-form-wrap{
+  display: flex;
+  align-items: center;
+}
+
+.cadastro-form{
+  width: 100%;
+  background: rgba(7, 13, 54, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 28px;
+  display: grid;
+  gap: 20px;
+  box-shadow: 0 28px 50px -32px rgba(0, 0, 0, 0.8);
+}
+
+.cadastro-form-header{
+  display: grid;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.cadastro-form-header h2{
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--branco);
+}
+
+.cadastro-form label{
+  display: grid;
+  gap: 10px;
+  color: var(--branco);
+  font-weight: 600;
+  font-size: 0.96rem;
+}
+
+.cadastro-form input{
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--branco);
+  border-radius: 12px;
+  padding: 15px 16px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.cadastro-form input::placeholder{
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.cadastro-form input:focus{
+  border-color: rgba(252, 180, 6, 0.8);
+  box-shadow: 0 0 0 3px rgba(252, 180, 6, 0.18);
+}
+
+.cadastro-btn{
+  margin-top: 8px;
+  border: none;
+  border-radius: var(--raio-pill);
+  background: var(--vermelho);
+  color: var(--branco);
+  padding: 16px 20px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.cadastro-btn:hover{ background: var(--vermelho-hover); }
+.cadastro-btn:active{ transform: translateY(1px); }
+.cadastro-btn:disabled{ opacity: 0.75; cursor: wait; }
+
+.cadastro-sucesso{
+  width: 100%;
+  background: rgba(9, 18, 72, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 28px 24px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.cadastro-voltar-sucesso{
+  margin-top: 6px;
+}
+
+.cadastro-sucesso-icone{
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--ambar);
+  color: var(--azul-header);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.cadastro-sucesso h2{
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+}
+
+.cadastro-sucesso p{
+  margin: 0;
+  max-width: 420px;
+  color: var(--texto-suave);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px){
+  .cadastro-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .cadastro-copy{ text-align: center; }
+  .cadastro-resumo{ align-self: center; }
+}
+
+@media (max-width: 560px){
+  .cadastro-page{ padding-top: 24px; }
+  .cadastro-form{ padding: 22px 18px; }
+  .cadastro-btn{ width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .precos-grid.animar .preco-card{ opacity: 1; transform: none; transition: none; }
+  .preco-card:hover{ transform: none; }
+}
+
+/* =========================================================
+   COMO CHEGAR
+   Esta seção usa um azul mais escuro que as vizinhas
+   (#000B4D), e o card fica no azul da página (#000E66) —
+   invertido em relação às outras seções, como no design.
+   ========================================================= */
+.local{
+  background: var(--azul-header);
+  padding: 80px 0 88px;
+}
+
+.local-topo{ margin-bottom: 34px; }
+.local .etiqueta{
+  background: var(--azul-pagina);
+  margin-bottom: 16px;
+}
+.local-titulo{ font-size: clamp(1.7rem, 3.4vw, 2.9rem); }
+.local-titulo .destaque-ambar{ color: var(--ambar); }
+
+.local-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* ---- card do endereço ---- */
+.local-card{
+  background: var(--azul-pagina);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 30px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 300px;
+}
+.local-endereco{ font-size: 1.3rem; margin-bottom: 10px; }
+.local-complemento{
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--texto-suave);
+}
+
+.local-acoes{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.local-btn,
+.local-btn-vazado{
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: var(--raio-pill);
+  padding: 14px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .22s ease, border-color .22s ease, transform .22s ease;
+}
+.local-btn{
+  background: var(--vermelho-icone);
+  color: var(--branco);
+}
+.local-btn:hover{ background: #D31700; }
+.local-btn-vazado{
+  background: transparent;
+  border: 1px solid var(--borda-botao);
+  color: var(--branco);
+}
+.local-btn-vazado:hover{
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.local-btn:active,
+.local-btn-vazado:active{ transform: translateY(1px); }
+
+/* ---- mapa ---- */
+.local-mapa{
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 300px;
+  background: var(--azul-pagina);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.local-mapa iframe{
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  border: 0;
+}
+
+/* =========================================================
+   RESPONSIVO — COMO CHEGAR
+   ========================================================= */
+@media (max-width: 860px){
+  .local{ padding: 60px 0 66px; }
+  .local-grid{ grid-template-columns: 1fr; }
+  .local-card{ min-height: 0; gap: 24px; padding: 26px 24px 28px; }
+  .local-mapa{ min-height: 280px; }
+}
+
+@media (max-width: 480px){
+  .local-acoes{ flex-direction: column; align-items: stretch; }
+  .local-btn,
+  .local-btn-vazado{ justify-content: center; }
+}
+
+/* =========================================================
+   DÚVIDAS (FAQ)
+   Usa <details>/<summary>: abre e fecha sem JavaScript, é
+   acessível por teclado e o texto das respostas fica sempre
+   no HTML. O JS só acrescenta a animação de altura.
+   ========================================================= */
+.faq{
+  padding: 80px 0 90px;
+}
+
+.faq-grid{
+  display: grid;
+  grid-template-columns: 0.72fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.faq-lado .etiqueta{ margin-bottom: 18px; }
+.faq-titulo{
+  font-size: clamp(1.7rem, 3.2vw, 2.7rem);
+  margin-bottom: 12px;
+}
+.faq-descricao{
+  margin: 0 0 40px;
+  max-width: 440px;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+.faq-btn{ display: inline-flex; }
+
+/* ---- lista ---- */
+.faq-lista{
+  display: grid;
+  gap: 8px;
+}
+
+.faq-item{
+  background: var(--azul-header);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .25s ease, background .25s ease;
+}
+.faq-item[open]{ border-color: rgba(255, 255, 255, 0.14); }
+.faq-item:hover{ background: #011057; }
+
+.faq-pergunta{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 17px 22px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+/* remove o triângulo padrão do navegador */
+.faq-pergunta::-webkit-details-marker{ display: none; }
+.faq-pergunta::marker{ content: ""; }
+.faq-item[open] .faq-pergunta{ color: var(--branco); }
+.faq-pergunta:focus-visible{
+  outline: 2px solid var(--ambar);
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+/* sinal de + que virá a virar × */
+.faq-mais{
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+.faq-mais::before,
+.faq-mais::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 2.4px;
+  border-radius: 2px;
+  background: var(--vermelho-icone);
+  transform: translateY(-50%);
+  transition: transform .28s cubic-bezier(.2,.7,.3,1), opacity .28s ease;
+}
+.faq-mais::after{ transform: translateY(-50%) rotate(90deg); }
+.faq-item[open] .faq-mais::before{ transform: translateY(-50%) rotate(135deg); }
+.faq-item[open] .faq-mais::after{ transform: translateY(-50%) rotate(45deg); }
+
+/* ---- resposta ---- */
+.faq-resposta{
+  overflow: hidden;
+}
+.faq-resposta p{
+  margin: 0;
+  padding: 0 22px 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+.faq-resposta a{
+  color: var(--ambar);
+  text-decoration: underline;
+  text-decoration-color: rgba(252, 180, 6, 0.4);
+}
+.faq-resposta a:hover{ text-decoration-color: var(--ambar); }
+
+/* =========================================================
+   RESPONSIVO — FAQ
+   ========================================================= */
+@media (max-width: 860px){
+  .faq{ padding: 60px 0 70px; }
+  .faq-grid{ grid-template-columns: 1fr; gap: 26px; }
+  .faq-titulo{ margin-bottom: 22px; }
+}
+
+@media (max-width: 480px){
+  .faq-pergunta{ padding: 15px 18px; font-size: 0.9rem; gap: 14px; }
+  .faq-resposta p{ padding: 0 18px 18px; font-size: 0.87rem; }
+  .faq-btn{ width: 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .faq-mais::before,
+  .faq-mais::after{ transition: none; }
+}
+
+/* =========================================================
+   CTA FINAL — BAIXE O APLICATIVO
+   ========================================================= */
+.cta{
+  padding: 20px 0 90px;
+}
+
+.cta-caixa{
+  position: relative;
+  overflow: hidden;
+  background: var(--azul-header);
+  border: 1px solid var(--borda-clara);
+  border-radius: 28px;
+  padding: 54px;
+  display: grid;
+  grid-template-columns: 1fr 0.82fr;
+  gap: 32px;
+  align-items: center;
+  height: fit-content;
+}
+
+.cta-texto{
+  position: relative;
+  z-index: 3;
+}
+.cta .etiqueta{
+  background: var(--azul-pagina);
+  margin-bottom: 18px;
+}
+.cta-titulo{
+  font-size: clamp(1.8rem, 3.6vw, 3rem);
+}
+.cta-titulo .destaque-ambar{ color: var(--ambar); }
+.cta-desc{
+  margin: 18px 0 0;
+  max-width: 420px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+
+.cta-lojas{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 48px;
+}
+
+/* chip de loja: mesmo pill branco da esteira de chips, para
+   reaproveitar a linguagem visual já estabelecida na página */
+.chip-loja{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--branco);
+  color: var(--azul-pagina);
+  border-radius: var(--raio-pill);
+  padding: 12px 22px;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.chip-loja:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.55);
+}
+.chip-loja svg{ width: 22px; height: 22px; flex-shrink: 0; }
+.chip-loja small{
+  display: block;
+  font-size: 0.66rem;
+  line-height: 1.2;
+  opacity: .7;
+}
+.chip-loja strong{
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+.chip-loja-sm{
+  padding: 10px 18px;
+}
+.chip-loja-sm svg{ width: 18px; height: 18px; }
+.chip-loja-sm strong{ font-size: 0.85rem; }
+
+/* celular */
+.cta-visual{
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 420px;
+  overflow: visible;
+}
+.cta-faixa-diagonal{
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(92%, 520px);
+  height: auto;
+  transform: translate(-50%, -48%) rotate(-12deg);
+  opacity: 0.9;
+  pointer-events: none;
+  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.18));
+}
+.cta-celular{
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  top: 0;
+  transform: none;
+}
+
+/* =========================================================
+   RODAPÉ
+   Mesma ideia do header: caixa descolada das bordas, com
+   borda branca a 10% de opacidade.
+   ========================================================= */
+.rodape{
+  padding: 0 0 22px;
+}
+
+.rodape-caixa{
+  background: var(--azul-header);
+  border: 1px solid var(--borda-clara);
+  border-radius: 28px;
+  padding: 42px 46px 24px;
+}
+
+.rodape-topo{
+  display: grid;
+  grid-template-columns: 1.15fr 1.1fr;
+  gap: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--borda-clara);
+}
+
+.rodape-logo{
+  height: 34px;
+  width: auto;
+  margin-bottom: 16px;
+}
+.rodape-marca p{
+  margin: 0;
+  max-width: 300px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+.rodape-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 12px 22px;
+  border-radius: var(--raio-pill);
+  background: var(--vermelho);
+  color: var(--branco);
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background .2s ease, transform .2s ease;
+}
+.rodape-btn:hover{ background: var(--vermelho-hover); }
+.rodape-btn:active{ transform: translateY(1px); }
+
+.rodape-nav{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.rodape-titulo{
+  margin: 0 0 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ambar);
+}
+.rodape-nav ul{ display: grid; gap: 10px; }
+.rodape-nav a{
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.78);
+  transition: color .2s ease;
+}
+.rodape-nav a:hover{ color: var(--branco); }
+
+.rodape-apps{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.rodape-apps .rodape-titulo{ margin-bottom: 4px; }
+
+.rodape-base{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 20px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* =========================================================
+   RESPONSIVO — CTA E RODAPÉ
+   ========================================================= */
+@media (max-width: 980px){
+  .cta-caixa{
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 44px 32px 0;
+    gap: 8px;
+  }
+  .cta-texto{ padding-bottom: 8px; }
+  .cta-desc{ margin-left: auto; margin-right: auto; }
+  .cta-lojas{ justify-content: center; }
+  .cta-celular{ max-width: 260px; margin-bottom: -4%; }
+  .cta-faixa{ bottom: 3%; width: 150%; }
+
+  .rodape-topo{ grid-template-columns: 1fr; gap: 32px; }
+  .rodape-caixa{ padding: 34px 28px 22px; }
+  .rodape-marca p{ max-width: none; }
+}
+
+@media (max-width: 560px){
+  .cta{ padding-bottom: 60px; }
+  .cta-caixa{ border-radius: 22px; padding: 34px 22px 0; }
+  .cta-lojas{ flex-direction: column; align-items: stretch; }
+  .chip-loja{ justify-content: center; }
+  .cta-celular{ max-width: 215px; }
+  .rodape-caixa{ border-radius: 22px; }
+  .rodape-nav{ grid-template-columns: 1fr; gap: 26px; }
+  .rodape-base{ flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .cta-celular{ transform: none !important; }
+  .chip-loja:hover{ transform: none; }
+}
+
+/* =========================================================
+   CORTINA DE CARREGAMENTO
+   Classes prefixadas com "loader-" de propósito: o projeto já
+   tem uma .pista e uma .logo em outras seções, e nomes curtos
+   aqui sobrescreveriam aquelas.
+   ========================================================= */
+.loader-cortina{
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--azul-pagina);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity .45s ease;
+  /* Rede de segurança: se o JavaScript não rodar, a cortina se
+     esconde sozinha em 4s. Antes disso a animação não tem efeito
+     (duração zero com atraso), então não briga com a transição. */
+  animation: loaderEscondeSozinha 0s linear 4s forwards;
+}
+
+@keyframes loaderEscondeSozinha{
+  to{ opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+.loader-conteudo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+.loader-logo{
+  height: 46px;
+  width: auto;
+  opacity: 0;
+  animation: loaderEntra .4s ease forwards;
+}
+
+@keyframes loaderEntra{
+  from{ opacity: 0; transform: translateY(8px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* barra indeterminada nas cores da faixa da marca */
+.loader-barra{
+  position: relative;
+  width: 160px;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.loader-barra span{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--creme),
+    var(--ambar),
+    var(--vermelho-icone)
+  );
+  animation: loaderCorre 1s ease-in-out infinite;
+}
+
+@keyframes loaderCorre{
+  0%{ left: -45%; }
+  100%{ left: 100%; }
+}
+
+/* saída: some e revela o site */
+.loader-saindo{
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .loader-logo{ animation: none; opacity: 1; }
+  .loader-barra span{ animation: none; left: 0; width: 100%; }
+}
+
+/* =========================================================
+   ROLAGEM: barra do navegador + indicador de progresso
+   ========================================================= */
+
+/* ---- barra de rolagem do navegador ---- */
+/* Firefox */
+html{
+  scrollbar-width: thin;
+  scrollbar-color: var(--ambar) var(--azul-header);
+}
+/* Chrome, Edge, Safari e derivados */
+::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track{
+  background: var(--azul-header);
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 999px;
+  border: 2px solid var(--azul-header);
+  background: linear-gradient(180deg, var(--ambar), var(--vermelho-icone));
+}
+::-webkit-scrollbar-thumb:hover{
+  background: linear-gradient(180deg, #FFC63A, #FF3A1F);
+}
+::-webkit-scrollbar-corner{
+  background: var(--azul-header);
+}
+
+/* ---- escova giratória no lugar do cursor ----
+   O diâmetro (76px) é o dobro do RAIO_CSS da esponja no
+   NaoRisca.jsx, então o que a pessoa vê é exatamente a área que
+   está sendo limpa. Se mudar um, mude o outro. */
+.lavagem-sujeira{
+  cursor: none;
+}
+
+.lavagem-escova{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;   /* centraliza no ponteiro */
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s ease;
+  will-change: left, top;
+}
+
+/* cerdas: raios em volta do eixo, com as pontas esmaecidas */
+.lavagem-escova-cerdas{
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(251, 249, 237, 0.92) 0deg 6deg,
+    rgba(251, 249, 237, 0) 6deg 17deg
+  );
+  -webkit-mask: radial-gradient(circle, #000 26%, rgba(0,0,0,.9) 58%, transparent 100%);
+  mask: radial-gradient(circle, #000 26%, rgba(0,0,0,.9) 58%, transparent 100%);
+  animation: escovaGira .5s linear infinite;
+}
+
+/* eixo central */
+.lavagem-escova-eixo{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26%;
+  height: 26%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--ambar);
+  box-shadow: 0 0 0 3px rgba(3, 16, 37, 0.55), 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes escovaGira{
+  to{ transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .lavagem-escova-cerdas{ animation: none; }
+}
+
+/* em telas de toque não existe cursor para substituir; a escova
+   aparece sob o dedo, mas o cursor do sistema volta ao normal */
+@media (hover: none){
+  .lavagem-sujeira{ cursor: grab; }
+}
