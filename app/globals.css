@@ -1635,23 +1635,41 @@ body.menu-travado{ overflow: hidden; }
 
 .local-grid{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 20px;
   align-items: stretch;
 }
 
-/* ---- card do endereço ---- */
+.local-content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.local-card,
+.local-content img {
+  height: 100%;
+  min-height: 300px;
+  border-radius: 16px;
+}
+
 .local-card{
   background: var(--azul-pagina);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
   padding: 30px 32px 32px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 28px;
-  min-height: 300px;
 }
+
+.local-content img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+
 .local-endereco{ font-size: 1.3rem; margin-bottom: 10px; }
 .local-complemento{
   margin: 0;
@@ -1697,6 +1715,7 @@ body.menu-travado{ overflow: hidden; }
   border-radius: 16px;
   overflow: hidden;
   min-height: 300px;
+  height: 100%;
   background: var(--azul-pagina);
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
@@ -1746,6 +1765,11 @@ body.menu-travado{ overflow: hidden; }
   font-size: clamp(1.7rem, 3.2vw, 2.7rem);
   margin-bottom: 12px;
 }
+
+.faq .destaque-ambar{
+  color: var(--ambar);
+}
+
 .faq-descricao{
   margin: 0 0 40px;
   max-width: 440px;
@@ -2024,7 +2048,7 @@ body.menu-travado{ overflow: hidden; }
 
 .rodape-nav{
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 28px;
 }
 .rodape-titulo{
@@ -2042,6 +2066,9 @@ body.menu-travado{ overflow: hidden; }
   transition: color .2s ease;
 }
 .rodape-nav a:hover{ color: var(--branco); }
+.rodape-contato li{
+  word-break: break-word;
+}
 
 .rodape-apps{
   display: flex;

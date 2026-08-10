@@ -16,14 +16,11 @@ export default function Localizacao() {
         </div>
 
         <div className="local-grid">
-          <div className="local-card">
-            <div>
+          <div className="local-content">
+            <div className="local-card">
               <h3 className="local-endereco">Av. Engenheiro Roberto Freire</h3>
               <p className="local-complemento">122, Capim Macio — Natal, RN</p>
               <p className="local-complemento">Fácil de chegar, rápido de usar e pronto para deixar seu carro impecável.</p>
-            </div>
-
-            <div className="local-acoes">
               <a
                 href="https://www.google.com/maps/dir/?api=1&destination=Av.+Engenheiro+Roberto+Freire,+Natal+-+RN"
                 className="local-btn-vazado"
@@ -36,7 +33,13 @@ export default function Localizacao() {
                 Abrir no mapa
               </a>
             </div>
+
+
+            <div>
+            </div>
+            <img src="/img/frente-loja.png" alt="Localização da Uashi" />
           </div>
+
 
           <div className="local-mapa">
             <iframe

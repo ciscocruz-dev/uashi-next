@@ -47,8 +47,8 @@ export default function Home() {
         <Chips />
         <ComoFunciona />
         <NaoRisca />
-        <Beneficios />
         <Precos />
+        <Beneficios />
         <Localizacao />
         <Faq />
         <CtaApp />

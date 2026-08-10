@@ -27,10 +27,10 @@ export default function Rodape() {
                 </ul>
               </div>
               <div>
-                <p className="rodape-titulo">Links</p>
-                <ul>
-                  <li><a href="#localizacao">Cadastrar</a></li>
-                  <li><a href="#app">Baixar o app</a></li>
+                <p className="rodape-titulo">Contato</p>
+                <ul className="rodape-contato">
+                  <li><a href="tel:+5584999999999">(84) 99999-9999</a></li>
+                  <li><a href="mailto:contato@uashi.com.br">contato@uashi.com.br</a></li>
                 </ul>
               </div>
               <div>

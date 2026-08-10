@@ -72,7 +72,7 @@ export default function Faq() {
       <div className="container faq-grid">
         <div className="faq-lado">
           <span className="etiqueta">Dúvidas</span>
-          <h2 className="faq-titulo">Perguntas frequentes</h2>
+          <h2 className="faq-titulo">Perguntas <span className="destaque-ambar">frequentes</span></h2>
           <p className="faq-descricao">
             Tudo o que você precisa saber para lavar o carro de forma rápida, prática e sem complicação.
           </p>
