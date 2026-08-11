@@ -2954,7 +2954,6 @@ html{
 
 /* ---- texto ---- */
 .tunel-conteudo{
-  position: relative;
   z-index: 4;
   max-width: 560px;
   padding: 0 28px;
@@ -3018,7 +3017,7 @@ html{
 
 /* ---- cronômetro da travessia ---- */
 .tunel-cronometro{
-  position: fixed;
+  position: absolute;
   top: 22px;
   right: 22px;
   z-index: 5;
@@ -3140,6 +3139,7 @@ html{
    do texto da etapa. No canto ele disputava espaço com o header e ficava
    apertado em tela estreita. */
 @media (max-width: 1450px){
+  .tunel-cronometro{ position: relative; margin: 18px auto 0; text-align: center; }
   .tunel-etapa {
     display: flex;
     flex-direction: column;
@@ -3153,10 +3153,10 @@ html{
   }
   .tunel-cronometro{
     position: static;
-    order: 2;
+    top: auto;
+    right: auto;
     margin-top: 18px;
-    text-align: center;
-     width: fit-content;
+    width: fit-content;
   }
   .tunel-cronometro-valor{
     font-size: 1.6rem;
