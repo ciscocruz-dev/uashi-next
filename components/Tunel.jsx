@@ -28,6 +28,13 @@ const ETAPAS = [
     titulo: "Secagem",
     texto: "Ar em alta vazão. Você sai pronto para seguir viagem.",
   },
+
+  {
+    titulo: "Pronto!",
+    texto: "Carro limpo, seco e protegido. Siga viagem.",
+    fim: true,
+  },
+
 ];
 
 const ARCOS = 6;        // arcos em cena ao mesmo tempo
@@ -70,7 +77,6 @@ export default function Tunel() {
   const trilha = useRef(null);
   const contador = useRef(null);
   const titulo = useRef(null);
-  const tituloRef = useRef(null);
   const descricao = useRef(null);
   const cronometro = useRef(null);
   const reduzido = usaMenosMovimento();
@@ -150,6 +156,7 @@ export default function Tunel() {
             atualizarTitulo(titulo.current, etapa.titulo);
           }
           if (descricao.current) descricao.current.textContent = etapa.texto;
+          palco.current?.classList.toggle("chegou", !!etapa.fim);
         }
 
         if (trilha.current) {
@@ -259,10 +266,6 @@ export default function Tunel() {
           <span className="tunel-cerdas" />
         </div>
 
-        {/* massa de espuma acumulada junto de cada escova */}
-        <div className="tunel-massa esquerda" aria-hidden="true" />
-        <div className="tunel-massa direita" aria-hidden="true" />
-
         {/* espuma saindo das laterais e flutuando pela seção */}
         <div className="tunel-espuma" aria-hidden="true">
           {Array.from({ length: BOLHAS }).map((_, i) => (
@@ -278,21 +281,16 @@ export default function Tunel() {
 
         {/* texto da etapa */}
         <div className="tunel-conteudo">
-          <span className="etiqueta">
-            Como lavamos
-          </span>
-
           <div className="tunel-etapa">
-
+            <span className="tunel-etapa-contador" ref={contador}>
+              Etapa 1 de 5
+            </span>
             <h2
               className="tunel-etapa-titulo"
               ref={titulo}
             >
               {ETAPAS[0].titulo}
             </h2>
-            <span className="tunel-etapa-contador" ref={contador}>
-              Etapa 1 de {ETAPAS.length}
-            </span>
             <p className="tunel-etapa-texto" ref={descricao}>
               {ETAPAS[0].texto}
             </p>
@@ -300,6 +298,12 @@ export default function Tunel() {
 
           <div className="tunel-trilha" aria-hidden="true">
             <span className="tunel-trilha-preenchimento" ref={trilha} />
+          </div>
+           <div className="tunel-continuar" aria-hidden="true">
+            <span>Avaçar</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M6 13l6 6 6-6" />
+            </svg>
           </div>
         </div>
       </div>

@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 const LINKS = [
   { id: "inicio", rotulo: "Início" },
   { id: "como-funciona", rotulo: "Como funciona" },
-  { id: "beneficios", rotulo: "Benefícios" },
+  { id: "tunel", rotulo: "Etapas" },
+  { id: "nao-risca", rotulo: "Segurança" },
   { id: "precos", rotulo: "Preços" },
-  { id: "localizacao", rotulo: "Como chegar" },
+  { id: "beneficios", rotulo: "Benefícios" },
+  { id: "localizacao", rotulo: "Localização" },
   { id: "duvidas", rotulo: "Dúvidas" },
 ];
 
-const LINK_APP = "/cadastro";
+const LINK_APP = "#baixar-app";
 
 export default function Header() {
   const [rolando, setRolando] = useState(false);

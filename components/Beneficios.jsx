@@ -134,7 +134,7 @@ export default function Beneficios() {
     <section id="beneficios" className="beneficios">
       <div className="container">
         <div className="beneficios-topo">
-          <span className="etiqueta">O resultado</span>
+          <span className="etiqueta">Benefícios</span>
           <h2 className="beneficios-titulo">
             Carro limpo na <span className="destaque-ambar">Uashi</span>
           </h2>

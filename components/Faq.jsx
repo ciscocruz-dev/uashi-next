@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { LinkCadastro } from "./LinkRastreado";
 import { usaMenosMovimento } from "@/lib/hooks";
 import { PERGUNTAS } from "@/lib/perguntas";
 
@@ -76,10 +75,9 @@ export default function Faq() {
           <p className="faq-descricao">
             Tudo o que você precisa saber para lavar o carro de forma rápida, prática e sem complicação.
           </p>
-          {/* TODO: trocar pela URL real da página de cadastro */}
-          <LinkCadastro href="/cadastro?origem=faq" origem="faq" className="local-btn faq-btn">
-            Fazer cadastro
-          </LinkCadastro>
+          <a href="#baixar-app" className="local-btn faq-btn">
+            Baixar app
+          </a>
         </div>
 
         <div className="faq-lista" ref={lista}>

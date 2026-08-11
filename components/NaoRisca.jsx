@@ -292,14 +292,14 @@ export default function NaoRisca() {
     .join(" ");
 
   return (
-    <section id="nao-risca" className="protege">
+    <section id="seguranca" className="protege">
       <div className="container protege-grid">
         <div className="protege-texto">
-          <span className="etiqueta">Proteção</span>
+          <span className="etiqueta">Segurança</span>
           <h2 className="protege-titulo">
             Lavagem segura
             <br />
-            <span className="destaque-azul">para sua pintura</span>
+            <span className="destaque-azul">sem riscar</span>
           </h2>
           <p className="protege-desc">
             A Uashi usa a <strong>Istobal M&apos;Wash2</strong>, sistema de lavagem automatizada que cuida da lataria com tecnologia de referência mundial.

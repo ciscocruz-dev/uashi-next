@@ -9,8 +9,8 @@ export default function Rodape() {
               <p>
                 Limpeza expressa para o seu carro em poucos minutos.
               </p>
-              <a href="/cadastro" className="rodape-btn">
-                Fazer cadastro
+              <a href="#baixar-app" className="rodape-btn">
+                Baixar App
               </a>
             </div>
 

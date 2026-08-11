@@ -1,8 +1,5 @@
-import { LinkCadastro } from "./LinkRastreado";
-
 /**
- * Server Component: nada aqui precisa de JavaScript no cliente,
- * exceto o link rastreado, que é um componente cliente isolado.
+ * Server Component: nada aqui precisa de JavaScript no cliente.
  */
 export default function Localizacao() {
   return (

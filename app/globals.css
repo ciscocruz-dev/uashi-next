@@ -2800,6 +2800,7 @@ html{
 /* fim do túnel: escuro no centro, azul da marca nas bordas */
 .tunel-profundidade{
   position: absolute;
+  transition: background .8s ease;
   inset: 0;
   z-index: 0;
   background:
@@ -2850,6 +2851,7 @@ html{
   z-index: 2;
   overflow: hidden;
   background: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15));
+  transition: transform .7s cubic-bezier(.4, 0, .2, 1);
 }
 .tunel-escova.esquerda{ left: 0; }
 .tunel-escova.direita{
@@ -2895,36 +2897,8 @@ html{
 
 /* massa acumulada junto de cada escova: dá a impressão de que a espuma
    está sendo empurrada para fora pelo rolo, e não aparecendo do nada */
-.tunel-massa{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 26%;
-  z-index: 2;
-  pointer-events: none;
-  opacity: .72;
-  background:
-    radial-gradient(38% 18% at 8% 22%, rgba(255,255,255,.5), transparent 70%),
-    radial-gradient(46% 22% at 2% 48%, rgba(251,249,237,.42), transparent 72%),
-    radial-gradient(34% 16% at 12% 76%, rgba(255,255,255,.38), transparent 70%),
-    radial-gradient(28% 12% at 4% 92%, rgba(251,249,237,.34), transparent 70%);
-  animation: tunelMassa 5.5s ease-in-out infinite alternate;
-}
-.tunel-massa.esquerda{ left: 0; }
-.tunel-massa.direita{
-  right: 0;
-  transform: scaleX(-1);
-  animation-delay: -2.6s;
-}
-@keyframes tunelMassa{
-  from{ opacity: .5; transform: translateY(0) scaleX(var(--esp, 1)); }
-  to{ opacity: .82; transform: translateY(-14px) scaleX(var(--esp, 1)); }
-}
-.tunel-massa.direita{ --esp: -1; }
 
-/* bolhas saindo das laterais e atravessando a seção.
-   Metade sai da esquerda, metade da direita: a espuma vem das escovas,
-   não do meio da tela. */
+
 .tunel-espuma{
   position: absolute;
   inset: 0;
@@ -3073,7 +3047,22 @@ html{
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
 }
-
+/* ---- chegada: última etapa ----
+   Vira o âmbar em verde e acende o cronômetro, para a pessoa perceber
+   que atravessou. Sem isso a etapa final parece só "mais uma". */
+.tunel-palco.chegou .tunel-etapa-contador{ display: none; }
+.tunel-palco.chegou .tunel-cronometro-valor{ color: #3FD07A; }
+.tunel-palco.chegou .tunel-cronometro{ border-color: rgba(63, 208, 122, 0.5); }
+.tunel-palco.chegou .tunel-etapa-titulo{
+  text-shadow: 0 6px 44px rgba(0, 0, 0, 0.9), 0 0 60px rgba(63, 208, 122, 0.28);
+}
+.tunel-palco.chegou .tunel-trilha-preenchimento{
+  background: linear-gradient(90deg, var(--ambar), #3FD07A);
+}
+.tunel-palco.chegou .tunel-etapa-titulo{
+  color: var(--branco);
+  text-shadow: 0 6px 44px rgba(0, 0, 0, 0.55);
+}
 @media (max-width: 560px){
   .tunel-cronometro{ top: 14px; right: 14px; padding: 8px 13px; }
   .tunel-cronometro-valor{ font-size: 1.15rem; }
@@ -3081,3 +3070,76 @@ html{
 
 /* lista de reserva, só aparece sem animação */
 .tunel-lista{ display: none; }
+
+.tunel-palco.chegou .tunel-profundidade{
+  background:
+    radial-gradient(62% 72% at 50% 46%, #0C6BC4 0%, #0550AA 34%, #033A7D 66%, var(--azul-pagina) 100%);
+}
+
+/* bolhas somem */
+.tunel-palco.chegou .tunel-espuma{
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+
+/* massa de espuma das escovas escorre e sai */
+.tunel-palco.chegou .tunel-massa{
+  opacity: 0;
+  transition: opacity .7s ease;
+}
+
+/* escovas param de girar e recuam para fora da tela */
+.tunel-palco.chegou .tunel-cerdas{
+  animation-play-state: paused;
+}
+.tunel-palco.chegou .tunel-escova.esquerda{
+  transform: translateX(-105%);
+}
+.tunel-palco.chegou .tunel-escova.direita{
+  transform: scaleX(-1) translateX(-105%);
+}
+
+/* arcos do túnel desaparecem */
+.tunel-palco.chegou .tunel-arcos{
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+/* ---- seta de continuar ----
+   Nasce escondida e sem ocupar clique. Só a classe .chegou a revela. */
+.tunel-continuar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 26px;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity .5s ease .25s, transform .5s ease .25s;
+  color: rgba(255, 255, 255, 0.85);
+}
+.tunel-continuar span{
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tunel-palco.chegou .tunel-continuar{
+  opacity: 1;
+  transform: translateY(0);
+}
+/* a seta só pula depois de aparecer, senão o movimento começa
+   antes de a pessoa conseguir vê-la */
+.tunel-palco.chegou .tunel-continuar svg{
+  animation: tunelDesce 1.4s ease-in-out .6s infinite;
+}
+
+@keyframes tunelDesce{
+  0%, 100% { transform: translateY(0); opacity: .85; }
+  50%      { transform: translateY(7px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tunel-palco.chegou .tunel-continuar svg{ animation: none; }
+}
