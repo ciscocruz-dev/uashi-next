@@ -17,13 +17,21 @@ export default function CtaApp() {
     <section id="baixar-app" className="cta">
       <div className="container">
         <div className="cta-caixa">
+          {/* faixa diagonal da marca. Gradiente em vez de imagem: o
+              ângulo e a proporção acompanham qualquer tamanho de card,
+              e não há arquivo para carregar. */}
+          <div className="cta-faixa-diagonal" aria-hidden="true" />
+
           <div className="cta-texto">
             <span className="etiqueta">Em poucos toques</span>
             <h2 className="cta-titulo">
-              A limpeza do seu carro <span className="destaque-ambar">na palma da mão</span>
+              Na palma
+              <br />
+              da <span className="destaque-ambar">sua mão</span>
             </h2>
             <p className="cta-desc">
-              Escolha o pacote ideal, gere seu QR code e pague em segundos. Em seguida, é só seguir até a pista e sair com o carro impecável.
+              Escolha o pacote ideal, gere seu QR code e pague em segundos.
+              Em seguida, é só seguir até a pista e sair com o carro impecável.
             </p>
 
             <div className="cta-lojas">
@@ -34,20 +42,12 @@ export default function CtaApp() {
 
           <div className="cta-visual">
             <Image
-              src="/img/faixa-diagonal.png"
-              alt=""
-              className="cta-faixa-diagonal"
-              width={480}
-              height={480}
-              aria-hidden="true"
-            />
-            <Image
               ref={celular}
               src="/img/app-celular.png"
               className="celular-flutuante cta-celular"
               alt="Tela do aplicativo Uashi com o QR code da lavagem pronto para uso"
-              width={800}
-              height={786}
+              width={726}
+              height={886}
               loading="lazy"
             />
           </div>

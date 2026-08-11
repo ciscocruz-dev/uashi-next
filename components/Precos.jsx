@@ -144,7 +144,7 @@ export default function Precos() {
                   {plano.tempo}
                 </p>
                 <a
-                  href={`/cadastro?plano=${plano.slug}`}
+                  href="#"
                   className="preco-btn"
                   onClick={() =>
                     enviarEvento({

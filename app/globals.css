@@ -1925,7 +1925,7 @@ body.menu-travado{ overflow: hidden; }
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 48px;
+  margin-top: 40px;
 }
 
 /* chip de loja: mesmo pill branco da esteira de chips, para
@@ -2577,3 +2577,200 @@ html{
   .painel-campo select, .painel-campo input{ min-width: 0; width: 100%; }
   .painel-barras li{ grid-template-columns: 96px 1fr 34px; gap: 9px; font-size: 0.8rem; }
 }
+
+
+/* =========================================================
+   CTA FINAL — NA PALMA DA SUA MÃO
+   ========================================================= */
+.cta{
+  padding: 20px 0 90px;
+}
+
+.cta-caixa{
+  position: relative;
+  overflow: hidden;              /* corta o celular e a faixa no raio */
+  background: var(--azul-header);
+  border: 1px solid var(--borda-clara);
+  border-radius: 22px;
+  /* proporção medida no design: 2.09 : 1 */
+  display: grid;
+  grid-template-columns: 1fr 0.86fr;
+  align-items: end;
+  gap: 24px;
+  padding: 52px 0 0 52px;
+}
+
+/* ---- faixa diagonal ----
+   O corte avança 30px na horizontal a cada 70px de altura no design,
+   o que dá ~23° da vertical. As paradas duras do gradiente criam a
+   borda reta entre as cores. */
+.cta-faixa-diagonal{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    112deg,
+    transparent 0 24%,
+    var(--creme) 24% 47%,
+    var(--ambar) 47% 72%,
+    var(--vermelho-faixa) 72% 100%
+  );
+}
+
+.cta-texto{
+  position: relative;
+  z-index: 3;
+  padding-bottom: 52px;
+}
+.cta .etiqueta{
+  background: var(--azul-pagina);
+  margin-bottom: 18px;
+}
+.cta-titulo{
+  font-size: clamp(1.8rem, 3.6vw, 3rem);
+}
+.cta-titulo .destaque-ambar{ color: var(--ambar); }
+.cta-desc{
+  margin: 18px 0 0;
+  max-width: 400px;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+}
+
+.cta-lojas{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* ---- pílula de download da loja ----
+   Fica FORA de qualquer bloco de seção de propósito: ela é usada no
+   CTA e no rodapé, então morar dentro do bloco do CTA fazia com que
+   reescrever aquela seção derrubasse os chips do rodapé junto. */
+.chip-loja{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--branco);
+  color: var(--azul-pagina);
+  border-radius: var(--raio-pill);
+  padding: 12px 22px;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.chip-loja:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.55);
+}
+.chip-loja svg{
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.chip-loja small{
+  display: block;
+  font-size: 0.66rem;
+  line-height: 1.2;
+  opacity: .7;
+}
+.chip-loja strong{
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+.chip-loja-sm{ padding: 10px 18px; }
+.chip-loja-sm svg{ width: 18px; height: 18px; }
+.chip-loja-sm strong{ font-size: 0.85rem; }
+
+/* ---- celular ----
+   Fica na frente da faixa e é cortado pela base do card. */
+.cta-visual{
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.cta-celular{
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  margin-bottom: -8%;
+  will-change: transform;
+}
+.cta-faixa-diagonal{
+  position: absolute;
+  /* sobra vertical: o skew joga o topo para a esquerda e a base para a
+     direita, então sem essa folga apareceria canto vazio */
+  top: -30%;
+  bottom: -30%;
+  right: -6%;
+  width: 52%;
+  z-index: 1;
+  pointer-events: none;
+  transform: skewX(23deg);
+  background: linear-gradient(
+    90deg,
+    var(--creme) 0 33.34%,
+    var(--ambar) 33.34% 66.67%,
+    var(--vermelho-faixa) 66.67% 100%
+  );
+}
+/* =========================================================
+   RESPONSIVO — CTA
+   ========================================================= */
+@media (max-width: 980px){
+  .cta-caixa{
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 10px;
+  }
+  .cta-texto{ padding-bottom: 8px; }
+  .cta-desc{ margin-left: auto; margin-right: auto; }
+  .cta-lojas{ justify-content: center; }
+  /* em coluna única a faixa vira uma tarja no rodapé do card,
+     porque o corte vertical não faria sentido aqui */
+  .cta-faixa-diagonal{
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 42%;
+    background: linear-gradient(
+      90deg,
+      var(--creme) 0 34%,
+      var(--ambar) 34% 67%,
+      var(--vermelho-faixa) 50% 100%
+    );
+  }
+  .cta-celular{ max-width: 450px; margin-bottom: -6%; }
+}
+
+@media (max-width: 560px){
+  .cta{ padding-bottom: 60px; }
+  .cta-caixa{ border-radius: 18px; padding: 34px; height: fit-content; }
+  .cta-lojas{ flex-direction: column; align-items: stretch; }
+  .chip-loja{ justify-content: center; }
+  .cta-visual{display:none ;}
+  .cta-faixa-diagonal{display:none ;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .cta-celular{ transform: none !important; }
+  .chip-loja:hover{ transform: none; }
+}
+
+/* ---- faixa diagonal ----
+   Medida no design: as bandas inclinam 23° em relação à vertical,
+   descendo para a direita, e vão de topo a base do card.
+
+   Feito com skewX e não com gradiente angulado: em linear-gradient o
+   ângulo controla o eixo, não a banda, então acertar a inclinação E o
+   sentido ao mesmo tempo é enganoso — e qualquer stop "transparent"
+   virava uma cunha cortada na base. Com skewX o ângulo é literal. */
