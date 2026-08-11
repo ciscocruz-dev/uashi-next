@@ -11,6 +11,7 @@ import Faq from "@/components/Faq";
 import { PERGUNTAS } from "@/lib/perguntas";
 import CtaApp from "@/components/CtaApp";
 import Rodape from "@/components/Rodape";
+import Tunel from "@/components/Tunel";
 
 /* Dados estruturados do FAQ gerados a partir da MESMA lista que
    renderiza as perguntas na tela, para os dois nunca divergirem.
@@ -46,6 +47,7 @@ export default function Home() {
         <Hero />
         <Chips />
         <ComoFunciona />
+        <Tunel /> 
         <NaoRisca />
         <Precos />
         <Beneficios />

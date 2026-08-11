@@ -143,20 +143,6 @@ export default function Precos() {
                   <IconeRelogio />
                   {plano.tempo}
                 </p>
-                <a
-                  href="#"
-                  className="preco-btn"
-                  onClick={() =>
-                    enviarEvento({
-                      event: "escolha_plano",
-                      plano: plano.nome,
-                      valor: `${plano.inteiro}${plano.centavos.replace(",", ".")}`,
-                      destino: `/cadastro?plano=${plano.slug}`,
-                    })
-                  }
-                >
-                  Quero esse
-                </a>
               </article>
             ))}
           </div>

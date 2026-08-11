@@ -543,7 +543,7 @@ body.menu-travado{ overflow: hidden; }
    COMO FUNCIONA
    ========================================================= */
 .processo{
-  padding: 80px 0 96px;
+  padding: 80px 0 196px;
 }
 
 .processo-topo{
@@ -1023,8 +1023,7 @@ body.menu-travado{ overflow: hidden; }
   position: sticky;
   top: calc(var(--altura-header) + var(--topo-header) + 46px + var(--i) * 26px);
 
-  width: 100%;
-  max-width: 100%;
+  max-width: 700px;
   margin: 0 auto;
   background: var(--branco);
   border-radius: 18px;
@@ -2048,7 +2047,7 @@ body.menu-travado{ overflow: hidden; }
 
 .rodape-nav{
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
 }
 .rodape-titulo{
@@ -2774,3 +2773,311 @@ html{
    ângulo controla o eixo, não a banda, então acertar a inclinação E o
    sentido ao mesmo tempo é enganoso — e qualquer stop "transparent"
    virava uma cunha cortada na base. Com skewX o ângulo é literal. */
+  
+   /* =========================================================
+   TÚNEL IMERSIVO
+   A seção é alta e o palco fica sticky: rolar a página faz os
+   arcos virem do fundo, criando a travessia.
+   ========================================================= */
+.tunel{
+  position: relative;
+  /* comprimento da rolagem: 5 etapas pedem espaço para cada uma
+     respirar. Menos que isso e a troca de etapa fica atropelada. */
+  height: 420vh;
+  background: var(--azul-pagina);
+}
+
+.tunel-palco{
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* fim do túnel: escuro no centro, azul da marca nas bordas */
+.tunel-profundidade{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(50% 60% at 50% 46%, #000414 0%, #00072A 36%, #000A3C 66%, var(--azul-pagina) 100%);
+}
+
+/* ---- arcos ----
+   Formam o túnel. Mantidos discretos de propósito: o brilho e a
+   opacidade são baixos para não competir com o texto da etapa nem com
+   a espuma. O teto de opacidade fica no JS (0.42), aqui é só o desenho. */
+.tunel-arcos{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.tunel-arco{
+  position: absolute;
+  left: 50%;
+  /* base negativa: as pernas do arco saem pela base da tela em vez de
+     ficarem flutuando no meio */
+  bottom: 50%;
+  width: 172vmin;
+  height: 104vmin;
+  transform-origin: 50% 50;
+  border: 2px solid currentColor;
+  border-bottom: none;
+  /* topo em meia-lua, laterais retas, aberto embaixo */
+  border-radius: 50% 50% 0 0 / 88% 88% 0 0;
+  /* Brilho discreto. Testei sem ele: o ganho foi de apenas ~2fps, ou
+     seja, o custo real está nas camadas grandes sendo recompostas, não
+     no desfoque. Então vale manter, porque é o que dá o aspecto de neon
+     do túnel. */
+  box-shadow: 0 0 8px currentColor;
+  will-change: transform, opacity;
+  contain: layout style paint;
+  opacity: 0;
+}
+.tunel-arco.cor-ambar{ color: var(--ambar); }
+.tunel-arco.cor-vermelho{ color: var(--vermelho-icone); }
+.tunel-arco.cor-creme{ color: var(--creme); }
+
+/* ---- escovas rotativas nas laterais ---- */
+.tunel-escova{
+  position: absolute;
+  top: -6%;
+  bottom: -6%;
+  width: 120px;
+  z-index: 2;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15));
+}
+.tunel-escova.esquerda{ left: 0; }
+.tunel-escova.direita{
+  right: 0;
+  transform: scaleX(-1);
+}
+
+/* as cerdas: faixas inclinadas que correm, sugerindo o cilindro
+   girando. Duas cópias empilhadas na animação para o loop não ter
+   emenda visível. */
+.tunel-cerdas{
+  position: absolute;
+  inset: -50% 0;
+  /* cerdas mais largas e com contraste maior: em faixas de 3px isso
+     lia como código de barras, não como escova */
+  background: repeating-linear-gradient(
+    168deg,
+    rgba(251, 249, 237, 0.62) 0 6px,
+    rgba(180, 190, 205, 0.18) 6px 13px,
+    rgba(0, 0, 0, 0.5) 13px 26px
+  );
+  animation: tunelGira 0.6s linear infinite;
+}
+@keyframes tunelGira{
+  to{ transform: translateY(26px); }
+}
+
+/* brilho no canto interno da escova, dá volume de cilindro */
+.tunel-escova::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6) 0 8%,
+    transparent 34%,
+    rgba(255, 255, 255, 0.26) 58%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+}
+
+/* ---- espuma ---- */
+
+/* massa acumulada junto de cada escova: dá a impressão de que a espuma
+   está sendo empurrada para fora pelo rolo, e não aparecendo do nada */
+.tunel-massa{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .72;
+  background:
+    radial-gradient(38% 18% at 8% 22%, rgba(255,255,255,.5), transparent 70%),
+    radial-gradient(46% 22% at 2% 48%, rgba(251,249,237,.42), transparent 72%),
+    radial-gradient(34% 16% at 12% 76%, rgba(255,255,255,.38), transparent 70%),
+    radial-gradient(28% 12% at 4% 92%, rgba(251,249,237,.34), transparent 70%);
+  animation: tunelMassa 5.5s ease-in-out infinite alternate;
+}
+.tunel-massa.esquerda{ left: 0; }
+.tunel-massa.direita{
+  right: 0;
+  transform: scaleX(-1);
+  animation-delay: -2.6s;
+}
+@keyframes tunelMassa{
+  from{ opacity: .5; transform: translateY(0) scaleX(var(--esp, 1)); }
+  to{ opacity: .82; transform: translateY(-14px) scaleX(var(--esp, 1)); }
+}
+.tunel-massa.direita{ --esp: -1; }
+
+/* bolhas saindo das laterais e atravessando a seção.
+   Metade sai da esquerda, metade da direita: a espuma vem das escovas,
+   não do meio da tela. */
+.tunel-espuma{
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+.tunel-espuma span{
+  position: absolute;
+  left: -80px;
+  top: var(--topo);
+  width: var(--tam);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  /* Miolo claro de propósito: com o centro muito transparente o fundo
+     azul aparecia por dentro e a bolha lia como esfera escura, não como
+     espuma. O anel e o ponto de luz é que dão a leitura de sabão. */
+  background: radial-gradient(
+    circle at 32% 28%,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(226, 238, 255, 0.34) 72%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  /* Sem box-shadow desfocado nas bolhas: com 22 delas em movimento, o
+     desfoque somado ao dos arcos derrubava a seção para 28fps. O
+     gradiente radial e o anel já entregam a leitura de sabão. */
+  opacity: 0;
+  animation: tunelBolhaDireita var(--duracao) linear infinite;
+  animation-delay: var(--atraso);
+  will-change: transform, opacity;
+}
+/* as pares saem da borda oposta */
+.tunel-espuma span:nth-child(2n){
+  left: auto;
+  right: -80px;
+  animation-name: tunelBolhaEsquerda;
+}
+
+@keyframes tunelBolhaDireita{
+  0%   { transform: translate(0, 0) scale(.45); opacity: 0; }
+  9%   { opacity: .9; }
+  74%  { opacity: .55; }
+  100% { transform: translate(var(--percurso), calc(var(--subida) * -1)) scale(1.55); opacity: 0; }
+}
+@keyframes tunelBolhaEsquerda{
+  0%   { transform: translate(0, 0) scale(.45); opacity: 0; }
+  9%   { opacity: .9; }
+  74%  { opacity: .55; }
+  100% { transform: translate(calc(var(--percurso) * -1), calc(var(--subida) * -1)) scale(1.55); opacity: 0; }
+}
+
+/* ---- texto ---- */
+.tunel-conteudo{
+  position: relative;
+  z-index: 4;
+  max-width: 560px;
+  padding: 0 28px;
+  text-align: center;
+}
+.tunel .etiqueta{
+  background: rgba(0, 11, 77, 0.8);
+  margin-bottom: 22px;
+}
+
+.tunel-etapa{ min-height: 190px; }
+.tunel-etapa-contador{
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ambar);
+}
+/* título grande e esmaecido, deixando os arcos aparecerem por trás —
+   é o que dá a sensação de o texto estar dentro do túnel, e não
+   colado na frente dele */
+.tunel-etapa-titulo{
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  line-height: 0.98;
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 6px 44px rgba(0, 0, 0, 0.9);
+}
+.tunel-etapa-texto{
+  margin: 0 auto;
+  max-width: 420px;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+}
+
+.tunel-trilha{
+  width: 190px;
+  height: 3px;
+  margin: 30px auto 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+.tunel-trilha-preenchimento{
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--ambar), var(--vermelho-icone));
+}
+
+.tunel-rodape{
+  margin: 22px 0 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.tunel-rodape strong{ color: var(--creme); }
+
+/* ---- cronômetro da travessia ---- */
+.tunel-cronometro{
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 5;
+  padding: 11px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--borda-clara);
+  background: rgba(0, 11, 77, 0.72);
+  backdrop-filter: blur(6px);
+  text-align: right;
+}
+.tunel-cronometro-valor{
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ambar);
+  font-variant-numeric: tabular-nums;
+}
+.tunel-cronometro-rotulo{
+  display: block;
+  margin-top: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 560px){
+  .tunel-cronometro{ top: 14px; right: 14px; padding: 8px 13px; }
+  .tunel-cronometro-valor{ font-size: 1.15rem; }
+}
+
+/* lista de reserva, só aparece sem animação */
+.tunel-lista{ display: none; }
