@@ -3018,10 +3018,11 @@ html{
 
 /* ---- cronômetro da travessia ---- */
 .tunel-cronometro{
-  position: absolute;
+  position: fixed;
   top: 22px;
   right: 22px;
   z-index: 5;
+
   padding: 11px 18px;
   border-radius: 12px;
   border: 1px solid var(--borda-clara);
@@ -3135,6 +3136,32 @@ html{
   animation: tunelDesce 1.4s ease-in-out .6s infinite;
 }
 
+/* Abaixo de 980px o cronômetro sai do canto e entra no fluxo, embaixo
+   do texto da etapa. No canto ele disputava espaço com o header e ficava
+   apertado em tela estreita. */
+@media (max-width: 1450px){
+  .tunel-etapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tunel-palco{
+    flex-direction: column;
+  }
+  .tunel-conteudo{
+    order: 1;
+  }
+  .tunel-cronometro{
+    position: static;
+    order: 2;
+    margin-top: 18px;
+    text-align: center;
+     width: fit-content;
+  }
+  .tunel-cronometro-valor{
+    font-size: 1.6rem;
+  }
+}
 @keyframes tunelDesce{
   0%, 100% { transform: translateY(0); opacity: .85; }
   50%      { transform: translateY(7px); opacity: 1; }

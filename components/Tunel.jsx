@@ -273,12 +273,6 @@ export default function Tunel() {
           ))}
         </div>
 
-        {/* cronômetro da travessia */}
-        <div className="tunel-cronometro" aria-hidden="true">
-          <span className="tunel-cronometro-valor" ref={cronometro}>0:00</span>
-          <span className="tunel-cronometro-rotulo">na pista</span>
-        </div>
-
         {/* texto da etapa */}
         <div className="tunel-conteudo">
           <div className="tunel-etapa">
@@ -294,6 +288,12 @@ export default function Tunel() {
             <p className="tunel-etapa-texto" ref={descricao}>
               {ETAPAS[0].texto}
             </p>
+                {/* cronômetro da travessia */}
+        <div className="tunel-cronometro" aria-hidden="true">
+          <span className="tunel-cronometro-valor" ref={cronometro}>0:00</span>
+          <span className="tunel-cronometro-rotulo">na pista</span>
+        </div>
+
           </div>
 
           <div className="tunel-trilha" aria-hidden="true">
