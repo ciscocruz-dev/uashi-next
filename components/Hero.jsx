@@ -48,11 +48,11 @@ export default function Hero() {
         <div className="hero-visual">
           <div className="hero-foto" ref={foto}>
             <Image
-              src="/img/carro-espuma.jpg"
+              src="/img/carro-espuma.webp"
               alt="Carro coberto de espuma na pista de lavagem automática da Uashi"
               fill
               sizes="(max-width: 980px) 92vw, 46vw"
-              priority
+              loading="lazy"
             />
           </div>
         </div>

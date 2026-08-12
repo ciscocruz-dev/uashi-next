@@ -43,7 +43,7 @@ export default function CtaApp() {
           <div className="cta-visual">
             <Image
               ref={celular}
-              src="/img/app-celular.png"
+              src="/img/app-celular.webp"
               className="celular-flutuante cta-celular"
               alt="Tela do aplicativo Uashi com o QR code da lavagem pronto para uso"
               width={726}

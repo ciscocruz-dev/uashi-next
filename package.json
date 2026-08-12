@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "convert-images": "node tools/convert-images.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,5 +14,8 @@
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

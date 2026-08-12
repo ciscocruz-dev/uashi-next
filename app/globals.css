@@ -1662,14 +1662,21 @@ body.menu-travado{ overflow: hidden; }
   gap: 28px;
 }
 
+.local-dados{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .local-content img {
   display: block;
   width: 100%;
   object-fit: cover;
+
 }
 
 
-.local-endereco{ font-size: 1.3rem; margin-bottom: 10px; }
+.local-endereco{ font-size: 1.4rem; }
 .local-complemento{
   margin: 0;
   font-size: 0.98rem;
@@ -1740,6 +1747,16 @@ body.menu-travado{ overflow: hidden; }
   .local-acoes{ flex-direction: column; align-items: stretch; }
   .local-btn,
   .local-btn-vazado{ justify-content: center; }
+}
+
+/* Esconder a imagem da fachada em dispositivos móveis para melhorar o layout */
+@media (max-width: 600px) {
+  .local-content {
+    gap: 0;
+  }
+  .local-content img {
+    display: none;
+  }
 }
 
 /* =========================================================
@@ -2891,6 +2908,14 @@ html{
     rgba(255, 255, 255, 0.26) 58%,
     rgba(0, 0, 0, 0.45) 100%
   );
+}
+
+/* Em telas pequenas esconder as escovas laterais para economizar espaço
+   e reduzir sobrecarga de composição em celulares. */
+@media (max-width: 600px) {
+  .tunel-escova {
+    display: none;
+  }
 }
 
 /* ---- espuma ---- */

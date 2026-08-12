@@ -37,10 +37,14 @@ const ETAPAS = [
 
 ];
 
-const ARCOS = 6;        // arcos em cena ao mesmo tempo
-const VOLTAS = 4.2;     // quantos arcos passam do começo ao fim da rolagem
+const VOLTAS = 4.2; // quantos arcos passam do começo ao fim da rolagem
 const CORES = ["ambar", "vermelho", "creme"];
-const BOLHAS = 20;      // espumas em cena ao mesmo tempo
+
+// Valores reduzidos por padrão para melhorar desempenho em dispositivos móveis.
+const DEFAULT_ARCOS_MOBILE = 4;
+const DEFAULT_BOLHAS_MOBILE = 10;
+const DEFAULT_ARCOS_DESKTOP = 6;
+const DEFAULT_BOLHAS_DESKTOP = 20;
 
 /**
  * Variação de cada bolha (altura, tamanho, duração, trajeto).
@@ -80,6 +84,19 @@ export default function Tunel() {
   const descricao = useRef(null);
   const cronometro = useRef(null);
   const reduzido = usaMenosMovimento();
+  const [arcosCount, setArcosCount] = useState(DEFAULT_ARCOS_MOBILE);
+  const [bolhasCount, setBolhasCount] = useState(DEFAULT_BOLHAS_MOBILE);
+
+  useEffect(() => {
+    const ajustar = () => {
+      const desktop = typeof window !== "undefined" && window.innerWidth > 900;
+      setArcosCount(desktop ? DEFAULT_ARCOS_DESKTOP : DEFAULT_ARCOS_MOBILE);
+      setBolhasCount(desktop ? DEFAULT_BOLHAS_DESKTOP : DEFAULT_BOLHAS_MOBILE);
+    };
+    ajustar();
+    window.addEventListener("resize", ajustar);
+    return () => window.removeEventListener("resize", ajustar);
+  }, []);
 
   const atualizarTitulo = (elemento, texto) => {
     elemento.textContent = texto;
@@ -187,7 +204,7 @@ export default function Tunel() {
           const el = arcos.current[i];
           if (!el) continue;
 
-          const fase = (p * VOLTAS + i / ARCOS) % 1;
+          const fase = (p * VOLTAS + i / arcosCount) % 1;
           const escala = 0.06 * Math.exp(fase * 3.3);
 
           let opacidade = 1;
@@ -249,7 +266,7 @@ export default function Tunel() {
 
         {/* arcos vindo do fundo, formando o túnel */}
         <div className="tunel-arcos" aria-hidden="true">
-          {Array.from({ length: ARCOS }).map((_, i) => (
+          {Array.from({ length: arcosCount }).map((_, i) => (
             <span
               key={i}
               ref={(el) => (arcos.current[i] = el)}
@@ -268,7 +285,7 @@ export default function Tunel() {
 
         {/* espuma saindo das laterais e flutuando pela seção */}
         <div className="tunel-espuma" aria-hidden="true">
-          {Array.from({ length: BOLHAS }).map((_, i) => (
+          {Array.from({ length: bolhasCount }).map((_, i) => (
             <span key={i} style={estiloDaBolha(i)} />
           ))}
         </div>
